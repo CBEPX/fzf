@@ -23,6 +23,7 @@ type Item struct {
 	offsets     []Offset
 	colors      []ansiOffset
 	rank        [5]int32
+	bonus       int32
 }
 
 // Sort criteria to use. Never changes once fzf is started.
@@ -81,7 +82,7 @@ func (item *Item) Rank(cache bool) [5]int32 {
 		var val int32
 		switch criterion {
 		case byMatchLen:
-			val = int32(matchlen)
+			val = int32(matchlen) - item.bonus
 		case byLength:
 			// It is guaranteed that .transformed in not null in normal execution
 			if item.transformed != nil {
